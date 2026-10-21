@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中文背書神器 - 互動好詞好句背誦平台</title>
+  <title>小六呈分試 - 情感描寫寶庫與成語互動學習平台</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Vue 3 CDN -->
@@ -15,7 +15,7 @@
   <!-- Google Fonts Inter & Noto Serif TC -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -34,11 +34,11 @@
               700: '#047857',
               900: '#064e3b',
             },
-            amberAccent: {
-              50: '#fffbeb',
-              100: '#fef3c7',
-              500: '#f59e0b',
-              600: '#d97706',
+            accent: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
             }
           }
         }
@@ -46,190 +46,118 @@
     }
   </script>
   <style>
-    /* Card Flip CSS Styles */
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .transform-style-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
-    }
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
     
-    /* Soft Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
 
-  <div id="app" class="flex-grow flex flex-col max-w-6xl w-full mx-auto px-4 sm:px-6 py-4">
+  <div id="app" class="flex-grow flex flex-col max-w-7xl w-full mx-auto px-3 sm:px-6 py-4">
     
-    <!-- 頂部 Header 導覽 -->
-    <header class="bg-white/90 backdrop-blur border border-slate-200/80 rounded-2xl shadow-sm px-5 py-4 mb-6 flex flex-wrap justify-between items-center gap-4">
+    <!-- 頁頭 Header -->
+    <header class="bg-white/90 backdrop-blur border border-slate-200/80 rounded-2xl shadow-sm px-4 sm:px-6 py-4 mb-5 flex flex-wrap justify-between items-center gap-4">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-          <i class="fa-solid fa-book-open-reader text-lg"></i>
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 via-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/20">
+          <i class="fa-solid fa-graduation-cap text-xl"></i>
         </div>
         <div>
-          <h1 class="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-            中文背書神器
-          </h1>
-          <p class="text-xs text-slate-500 font-medium">高效句型互動記憶與默寫平台</p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-black bg-gradient-to-r from-slate-900 via-brand-900 to-slate-700 bg-clip-text text-transparent">
+              小六呈分試：情感描寫寶庫
+            </h1>
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 text-[11px] font-bold rounded-md">作文衝刺特訓</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">包含14句經典描寫、22個核心成語、6個範文段落與20個作文應考題目</p>
         </div>
       </div>
 
-      <!-- 右側切換分頁語音設定 -->
-      <div class="flex items-center space-x-2 sm:space-x-3 text-sm">
-        <button @click="openAddModal" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium transition flex items-center gap-1.5 text-xs sm:text-sm">
-          <i class="fa-solid fa-plus text-brand-600"></i>
-          <span>管理句子</span>
+      <!-- 右側控制按鈕 -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button @click="toggleVoiceLang" class="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-700 border border-brand-200/60 rounded-xl font-semibold transition flex items-center gap-1.5 text-xs sm:text-sm">
+          <i class="fa-solid fa-volume-high"></i>
+          <span>{{ speechLangName }}</span>
         </button>
-        
-        <!-- 語音切換 -->
-        <div class="relative">
-          <button @click="toggleVoiceLang" class="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-700 border border-brand-200/60 rounded-xl font-medium transition flex items-center gap-1.5 text-xs sm:text-sm">
-            <i class="fa-solid fa-volume-high"></i>
-            <span>{{ speechLangName }}</span>
-          </button>
-        </div>
       </div>
     </header>
 
-    <!-- 學習總覽與模式選單 -->
-    <section class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-      
-      <!-- 統計數據小卡 (各占一格，手機版自適應) -->
-      <div class="lg:col-span-1 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 shadow-sm flex flex-col justify-between relative overflow-hidden">
-        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-500/10 rounded-full blur-xl pointer-events-none"></div>
-        <div>
-          <div class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-1">背誦進度統計</div>
-          <div class="flex items-baseline space-x-2">
-            <span class="text-3xl font-extrabold text-brand-500">{{ overallProgress }}%</span>
-            <span class="text-xs text-slate-300">已精通 {{ masteredCount }} / {{ totalSentencesCount }} 句</span>
-          </div>
-          <div class="w-full bg-slate-700/60 h-2 rounded-full overflow-hidden mt-3">
-            <div class="bg-gradient-to-r from-teal-400 to-brand-500 h-full rounded-full transition-all duration-500" :style="{ width: overallProgress + '%' }"></div>
-          </div>
+    <!-- 主導覽 Tab 頁籤 -->
+    <nav class="bg-white border border-slate-200 rounded-2xl p-1.5 mb-5 shadow-sm overflow-x-auto scrollbar-none flex gap-1">
+      <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id"
+              :class="currentTab === tab.id ? 'bg-slate-900 text-white font-bold shadow-md' : 'text-slate-600 hover:bg-slate-100 font-medium'"
+              class="px-4 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap">
+        <i :class="tab.icon"></i>
+        <span>{{ tab.name }}</span>
+      </button>
+    </nav>
+
+    <!-- 頂部進度條與統計卡片 (除了作文題庫外顯示) -->
+    <section v-if="currentTab !== 'topics'" class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-950 text-white rounded-2xl p-4 sm:p-5 shadow-sm mb-5 relative overflow-hidden flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur border border-white/20 flex flex-col items-center justify-center">
+          <span class="text-xl font-black text-emerald-400">{{ overallProgress }}%</span>
+          <span class="text-[9px] text-slate-300 uppercase">總掌握度</span>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-700/50 flex justify-between text-xs text-slate-300">
-          <span>未掌握: <strong class="text-rose-400">{{ unmasteredCount }}</strong></span>
-          <span>學習中: <strong class="text-amber-400">{{ learningCount }}</strong></span>
-          <span>已精通: <strong class="text-emerald-400">{{ masteredCount }}</strong></span>
+        <div>
+          <h2 class="text-sm sm:text-base font-bold text-slate-100">學習熟練度統計</h2>
+          <p class="text-xs text-slate-400">已精通 <span class="text-emerald-400 font-bold">{{ masteredCount }}</span> / {{ totalItemsCount }} 項 | 學習中 {{ learningCount }} | 未掌握 {{ unmasteredCount }}</p>
         </div>
       </div>
 
-      <!-- 四大模式導覽頁籤 -->
-      <div class="lg:col-span-3 bg-white border border-slate-200/80 rounded-2xl p-2 sm:p-3 shadow-sm flex flex-col justify-center">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          
-          <button @click="currentMode = 'mask'" :class="currentMode === 'mask' ? 'bg-brand-50 border-brand-500/50 text-brand-700 shadow-sm' : 'hover:bg-slate-50 text-slate-600 border-transparent'" class="p-3 rounded-xl border flex flex-col items-center justify-center transition text-center group">
-            <div :class="currentMode === 'mask' ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'" class="w-10 h-10 rounded-lg flex items-center justify-center mb-2 transition">
-              <i class="fa-solid fa-eye-slash text-base"></i>
-            </div>
-            <span class="font-bold text-xs sm:text-sm">分級遮擋</span>
-            <span class="text-[10px] text-slate-400 mt-0.5">漸進式挖空</span>
-          </button>
-
-          <button @click="currentMode = 'typing'" :class="currentMode === 'typing' ? 'bg-brand-50 border-brand-500/50 text-brand-700 shadow-sm' : 'hover:bg-slate-50 text-slate-600 border-transparent'" class="p-3 rounded-xl border flex flex-col items-center justify-center transition text-center group">
-            <div :class="currentMode === 'typing' ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'" class="w-10 h-10 rounded-lg flex items-center justify-center mb-2 transition">
-              <i class="fa-solid fa-keyboard text-base"></i>
-            </div>
-            <span class="font-bold text-xs sm:text-sm">默寫打字</span>
-            <span class="text-[10px] text-slate-400 mt-0.5">逐字即時核對</span>
-          </button>
-
-          <button @click="currentMode = 'blocks'" :class="currentMode === 'blocks' ? 'bg-brand-50 border-brand-500/50 text-brand-700 shadow-sm' : 'hover:bg-slate-50 text-slate-600 border-transparent'" class="p-3 rounded-xl border flex flex-col items-center justify-center transition text-center group">
-            <div :class="currentMode === 'blocks' ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'" class="w-10 h-10 rounded-lg flex items-center justify-center mb-2 transition">
-              <i class="fa-solid fa-puzzle-piece text-base"></i>
-            </div>
-            <span class="font-bold text-xs sm:text-sm">詞塊組句</span>
-            <span class="text-[10px] text-slate-400 mt-0.5">拼圖點擊組合</span>
-          </button>
-
-          <button @click="currentMode = 'flashcard'" :class="currentMode === 'flashcard' ? 'bg-brand-50 border-brand-500/50 text-brand-700 shadow-sm' : 'hover:bg-slate-50 text-slate-600 border-transparent'" class="p-3 rounded-xl border flex flex-col items-center justify-center transition text-center group">
-            <div :class="currentMode === 'flashcard' ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'" class="w-10 h-10 rounded-lg flex items-center justify-center mb-2 transition">
-              <i class="fa-solid fa-clone text-base"></i>
-            </div>
-            <span class="font-bold text-xs sm:text-sm">記憶卡片</span>
-            <span class="text-[10px] text-slate-400 mt-0.5">雙面翻轉複習</span>
-          </button>
-
-        </div>
+      <!-- 分類快選 Filter Bar -->
+      <div class="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1">
+        <button @click="selectedCategory = 'ALL'" :class="selectedCategory === 'ALL' ? 'bg-brand-500 text-white font-bold' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">
+          全部 ({{ totalItemsCount }})
+        </button>
+        <button v-for="cat in categoriesList" :key="cat" @click="selectedCategory = cat" :class="selectedCategory === cat ? 'bg-brand-500 text-white font-bold' : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">
+          {{ cat }}
+        </button>
       </div>
     </section>
 
-    <!-- 分類篩選頁籤與主要互動區域 -->
-    <div class="flex-grow flex flex-col">
-      
-      <!-- 分類 Filter Bar -->
-      <div class="flex items-center justify-between overflow-x-auto pb-2 mb-4 gap-2 scrollbar-none">
+    <!-- 模式一：分級遮擋背誦 (Masking Mode) -->
+    <main v-if="currentTab === 'mask'" class="space-y-4 flex-grow">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center space-x-2">
-          <button @click="selectedCategory = 'ALL'" :class="selectedCategory === 'ALL' ? 'bg-slate-800 text-white font-medium' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm transition whitespace-nowrap shadow-sm">
-            全部句子 ({{ totalSentencesCount }})
+          <i class="fa-solid fa-eye-slash text-brand-600"></i>
+          <span class="text-xs sm:text-sm font-bold text-slate-700">漸進式挖空遮擋：</span>
+        </div>
+        <div class="flex items-center bg-slate-100 p-1 rounded-xl">
+          <button v-for="level in [0, 25, 50, 75, 100]" :key="level" @click="maskLevel = level" :class="maskLevel === level ? 'bg-white text-brand-700 font-bold shadow-sm' : 'text-slate-500 hover:text-slate-800'" class="px-3 py-1 rounded-lg text-xs sm:text-sm transition">
+            {{ level }}%
           </button>
-          <button v-for="cat in categories" :key="cat.id" @click="selectedCategory = cat.name" :class="selectedCategory === cat.name ? 'bg-slate-800 text-white font-medium' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'" class="px-3 py-1.5 rounded-xl text-xs sm:text-sm transition whitespace-nowrap shadow-sm">
-            {{ cat.name }} ({{ cat.sentences.length }})
-          </button>
+        </div>
+        <div class="text-xs text-slate-400 hidden sm:block">
+          <i class="fa-regular fa-lightbulb text-amber-500 mr-1"></i>點擊模糊區域可暫時查看答案
         </div>
       </div>
 
-      <!-- 模式一：分級遮擋 (Progressive Blur) -->
-      <main v-if="currentMode === 'mask'" class="space-y-4 flex-grow">
-        <!-- 遮擋比例切換按鈕組 -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-center space-x-2">
-            <i class="fa-solid fa-sliders text-brand-600 text-sm"></i>
-            <span class="text-xs sm:text-sm font-bold text-slate-700">遮擋比例：</span>
-          </div>
-          <div class="flex items-center bg-slate-100 p-1 rounded-xl">
-            <button v-for="level in [0, 25, 50, 75, 100]" :key="level" @click="maskLevel = level" :class="maskLevel === level ? 'bg-white text-brand-700 font-bold shadow-sm' : 'text-slate-500 hover:text-slate-800'" class="px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm transition">
-              {{ level }}%
-            </button>
-          </div>
-          <div class="text-xs text-slate-400 hidden md:block">
-            <i class="fa-regular fa-lightbulb text-amber-500 mr-1"></i>滑鼠懸停或點擊模糊字詞可暫時查看
-          </div>
-        </div>
-
-        <!-- 句子清單展示 -->
-        <div class="space-y-4">
-          <div v-for="item in activeSentences" :key="item.id" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow transition relative group">
-            <div class="flex justify-between items-start mb-3">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+      <!-- 句子卡片清單 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div v-for="item in activeSentences" :key="item.id" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow transition flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/50">
                 {{ item.category }}
               </span>
               <div class="flex items-center space-x-2">
-                <!-- 朗讀按鈕 -->
-                <button @click="speakText(item.text)" class="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-emerald-50 rounded-lg transition" title="朗讀句子">
+                <button @click="speakText(item.text)" class="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-emerald-50 rounded-lg transition" title="朗讀">
                   <i class="fa-solid fa-volume-high text-sm"></i>
                 </button>
-                <!-- 熟練度狀態設定 -->
-                <button @click="cycleStatus(item)" :class="statusStyle(item.status)" class="px-2.5 py-1 rounded-lg text-xs font-medium border transition">
+                <button @click="cycleStatus(item)" :class="statusStyle(item.status)" class="px-2.5 py-1 rounded-lg text-xs font-semibold border transition">
                   {{ statusText(item.status) }}
                 </button>
               </div>
             </div>
 
-            <!-- 渲染帶有動態遮擋的文本 -->
-            <div class="font-serif text-lg sm:text-xl leading-relaxed tracking-wide text-slate-800 pt-1">
-              <span v-for="(charObj, idx) in processMaskedText(item.text, maskLevel)" :key="idx" class="inline-block transition-all duration-200">
+            <div class="font-serif text-lg leading-relaxed tracking-wide text-slate-800 my-2">
+              <span v-for="(charObj, idx) in processMaskedText(item.text, maskLevel)" :key="idx" class="inline-block">
                 <span v-if="charObj.isPunctuation">{{ charObj.char }}</span>
                 <span v-else-if="!charObj.masked" class="text-slate-800">{{ charObj.char }}</span>
                 <span v-else 
@@ -241,420 +169,600 @@
               </span>
             </div>
           </div>
-        </div>
-      </main>
-
-      <!-- 模式二：默寫打字測試 (Typing Test) -->
-      <main v-if="currentMode === 'typing'" class="flex-grow flex flex-col justify-center max-w-3xl mx-auto w-full">
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6">
           
-          <!-- 單個句子測驗卡片 Header -->
-          <div class="flex justify-between items-center border-b pb-4 border-slate-100">
-            <div>
-              <span class="text-xs font-semibold text-brand-600 uppercase tracking-wider">默寫打字練習</span>
-              <h3 class="text-sm sm:text-base font-bold text-slate-800">主題：{{ currentTypingItem.category }}</h3>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-slate-400">句子 {{ typingIndex + 1 }} / {{ activeSentences.length }}</span>
-              <button @click="speakText(currentTypingItem.text)" class="p-2 text-slate-500 hover:text-brand-600 rounded-lg transition" title="朗讀題目">
-                <i class="fa-solid fa-volume-high text-base"></i>
-              </button>
-            </div>
+          <div v-if="item.tags" class="mt-3 pt-2 border-t border-slate-100 flex flex-wrap gap-1">
+            <span v-for="t in item.tags" :key="t" class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded">#{{ t }}</span>
           </div>
-
-          <!-- 實時對比可視化 display -->
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 min-h-[100px] flex flex-wrap items-center gap-1 font-serif text-lg sm:text-xl leading-relaxed">
-            <template v-for="(char, i) in currentTypingItem.text.split('')" :key="i">
-              <span :class="getTypingCharClass(i)" class="px-0.5 rounded transition">
-                {{ typedInput[i] || '_' }}
-              </span>
-            </template>
-          </div>
-
-          <!-- 提示區域與打字輸入框 -->
-          <div class="space-y-3">
-            <div class="flex justify-between items-center text-xs">
-              <span class="text-slate-500">請在下方輸入框中默寫全句：</span>
-              <div class="space-x-2">
-                <button @click="giveTypingHint" class="text-brand-600 hover:text-brand-700 font-medium">
-                  <i class="fa-regular fa-lightbulb mr-1"></i>提示下一字
-                </button>
-                <button @click="toggleTypingAnswer" class="text-slate-500 hover:text-slate-700">
-                  <i class="fa-solid fa-eye mr-1"></i>{{ showTypingAnswer ? '隱藏答案' : '顯示答案' }}
-                </button>
-              </div>
-            </div>
-
-            <textarea v-model="typedInput" placeholder="開始打字默寫..." rows="3" class="w-full p-4 border-2 rounded-xl border-slate-200 focus:border-brand-500 focus:ring-0 font-serif text-base text-slate-800 resize-none transition"></textarea>
-
-            <!-- 顯示完整答案提示 -->
-            <div v-if="showTypingAnswer" class="p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl text-sm font-serif">
-              <strong>完整答案：</strong> {{ currentTypingItem.text }}
-            </div>
-          </div>
-
-          <!-- 正確性結果提示與切換按鈕 -->
-          <div class="flex items-center justify-between pt-2">
-            <div>
-              <span v-if="isTypingComplete" class="inline-flex items-center gap-1.5 text-emerald-600 font-bold text-sm bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
-                <i class="fa-solid fa-circle-check"></i> 完美默寫成功！
-              </span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <button @click="prevTypingSentence" :disabled="typingIndex === 0" class="px-4 py-2 border rounded-xl text-xs sm:text-sm font-medium text-slate-600 disabled:opacity-40 hover:bg-slate-50">
-                上一句
-              </button>
-              <button @click="nextTypingSentence" :disabled="typingIndex >= activeSentences.length - 1" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-medium transition shadow-sm disabled:opacity-40">
-                下一句
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </main>
-
-      <!-- 模式三：詞塊組句挑戰 (Word Block Assembly) -->
-      <main v-if="currentMode === 'blocks'" class="flex-grow flex flex-col justify-center max-w-3xl mx-auto w-full">
-        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6">
-          
-          <div class="flex justify-between items-center border-b pb-4 border-slate-100">
-            <div>
-              <span class="text-xs font-semibold text-brand-600 uppercase tracking-wider">詞塊組句遊戲</span>
-              <h3 class="text-sm sm:text-base font-bold text-slate-800">主題：{{ currentBlockItem.category }}</h3>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-slate-400">句子 {{ blockIndex + 1 }} / {{ activeSentences.length }}</span>
-              <button @click="speakText(currentBlockItem.text)" class="p-2 text-slate-500 hover:text-brand-600 rounded-lg transition" title="朗讀題目">
-                <i class="fa-solid fa-volume-high text-base"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- 已放置區塊的組合展示面板 -->
-          <div class="min-h-[110px] p-4 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-300 flex flex-wrap gap-2 items-center align-content-start transition">
-            <span v-if="selectedBlocks.length === 0" class="text-slate-400 text-sm italic w-full text-center py-6">
-              點擊下方的詞塊，將句子重組歸位...
-            </span>
-
-            <button v-for="(b, idx) in selectedBlocks" :key="'sel-'+idx" @click="deselectBlock(idx)" class="px-3.5 py-2 bg-white border-2 border-brand-500 text-brand-900 font-serif font-semibold text-base rounded-xl shadow-sm hover:bg-rose-50 hover:border-rose-300 transition group flex items-center gap-1.5">
-              <span>{{ b }}</span>
-              <i class="fa-solid fa-xmark text-xs text-brand-400 group-hover:text-rose-500"></i>
-            </button>
-          </div>
-
-          <!-- 待選詞塊面板 (隨機打散) -->
-          <div class="space-y-2">
-            <div class="text-xs font-semibold text-slate-500">可用詞塊：</div>
-            <div class="flex flex-wrap gap-2.5">
-              <button v-for="(b, idx) in availableBlocks" :key="'avail-'+idx" @click="selectBlock(idx)" class="px-3.5 py-2 bg-slate-100 hover:bg-brand-50 hover:border-brand-300 border border-slate-200 text-slate-800 font-serif text-base rounded-xl font-medium shadow-sm transition active:scale-95">
-                {{ b }}
-              </button>
-            </div>
-          </div>
-
-          <!-- 動作按鈕列 -->
-          <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-            <button @click="resetBlocks" class="px-3.5 py-2 text-xs sm:text-sm text-slate-500 hover:text-slate-800 flex items-center gap-1">
-              <i class="fa-solid fa-arrow-rotate-left"></i> 重置詞塊
-            </button>
-
-            <!-- 完成狀態標籤 -->
-            <div>
-              <span v-if="isBlockAssembledCorrect" class="text-emerald-600 font-bold text-sm bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center gap-1">
-                <i class="fa-solid fa-circle-check"></i> 順序完全正確！
-              </span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <button @click="prevBlockSentence" :disabled="blockIndex === 0" class="px-4 py-2 border rounded-xl text-xs sm:text-sm font-medium text-slate-600 disabled:opacity-40 hover:bg-slate-50">
-                上一句
-              </button>
-              <button @click="nextBlockSentence" :disabled="blockIndex >= activeSentences.length - 1" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-medium transition shadow-sm disabled:opacity-40">
-                下一句
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </main>
-
-      <!-- 模式四：雙面記憶卡片 (Flashcards) -->
-      <main v-if="currentMode === 'flashcard'" class="flex-grow flex flex-col justify-center max-w-xl mx-auto w-full">
-        <div class="space-y-6">
-          
-          <!-- 翻轉卡片主體 -->
-          <div @click="isFlipped = !isFlipped" class="perspective-1000 w-full h-80 cursor-pointer">
-            <div :class="{ 'rotate-y-180': isFlipped }" class="w-full h-full duration-500 transform-style-3d relative rounded-3xl shadow-lg border border-slate-200">
-              
-              <!-- 卡片正面 (Front) -->
-              <div class="absolute inset-0 backface-hidden bg-white rounded-3xl p-8 flex flex-col justify-between items-center text-center border-2 border-brand-100">
-                <div class="w-full flex justify-between items-center text-xs text-slate-400">
-                  <span class="px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full font-bold">{{ currentCardItem.category }}</span>
-                  <span>點擊卡片翻面答案</span>
-                </div>
-
-                <div class="space-y-3 my-auto">
-                  <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold">句子首字提示</div>
-                  <div class="font-serif text-3xl font-bold text-slate-800">
-                    「 {{ currentCardItem.text.slice(0, 4) }}... 」
-                  </div>
-                  <div class="text-xs text-slate-400">全句共 {{ currentCardItem.text.length }} 個字</div>
-                </div>
-
-                <div class="text-xs text-brand-600 font-medium flex items-center gap-1">
-                  <i class="fa-solid fa-rotate"></i> 點擊卡片查看完整句子
-                </div>
-              </div>
-
-              <!-- 卡片背面 (Back) -->
-              <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-8 flex flex-col justify-between items-center text-center">
-                <div class="w-full flex justify-between items-center text-xs text-slate-400">
-                  <span class="px-2.5 py-1 bg-slate-700 text-slate-200 rounded-full font-bold">{{ currentCardItem.category }}</span>
-                  <button @click.stop="speakText(currentCardItem.text)" class="text-slate-300 hover:text-white p-1" title="朗讀">
-                    <i class="fa-solid fa-volume-high text-base"></i>
-                  </button>
-                </div>
-
-                <div class="font-serif text-xl sm:text-2xl leading-relaxed font-medium text-slate-100 my-auto px-2">
-                  {{ currentCardItem.text }}
-                </div>
-
-                <!-- 熟練度快速標記按鈕 -->
-                <div class="w-full pt-3 border-t border-slate-700/60 flex justify-center space-x-2" @click.stop>
-                  <button @click="setCardStatus('unmastered')" :class="currentCardItem.status === 'unmastered' ? 'ring-2 ring-rose-400' : ''" class="px-3 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 rounded-xl text-xs font-semibold transition">
-                    🔴 未掌握
-                  </button>
-                  <button @click="setCardStatus('learning')" :class="currentCardItem.status === 'learning' ? 'ring-2 ring-amber-400' : ''" class="px-3 py-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 rounded-xl text-xs font-semibold transition">
-                    🟡 學習中
-                  </button>
-                  <button @click="setCardStatus('mastered')" :class="currentCardItem.status === 'mastered' ? 'ring-2 ring-emerald-400' : ''" class="px-3 py-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 rounded-xl text-xs font-semibold transition">
-                    🟢 已精通
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- 控制導覽列 -->
-          <div class="flex items-center justify-between px-2">
-            <button @click="prevCard" :disabled="cardIndex === 0" class="px-5 py-2.5 bg-white border rounded-xl text-sm font-semibold text-slate-700 shadow-sm disabled:opacity-40 hover:bg-slate-50 transition">
-              <i class="fa-solid fa-chevron-left mr-1"></i> 上一張
-            </button>
-            <span class="text-xs sm:text-sm font-medium text-slate-500">
-              {{ cardIndex + 1 }} / {{ activeSentences.length }}
-            </span>
-            <button @click="nextCard" :disabled="cardIndex >= activeSentences.length - 1" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-semibold shadow-sm disabled:opacity-40 transition">
-              下一張 <i class="fa-solid fa-chevron-right ml-1"></i>
-            </button>
-          </div>
-
-        </div>
-      </main>
-
-    </div>
-
-    <!-- 句子管理 Modal 彈窗 -->
-    <div v-if="showModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 flex flex-col max-h-[85vh]">
-        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-          <h2 class="text-lg font-bold text-slate-800">管理背誦句子庫</h2>
-          <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 p-1">
-            <i class="fa-solid fa-xmark text-lg"></i>
-          </button>
-        </div>
-
-        <!-- 新增句子區域 -->
-        <div class="py-4 space-y-3 border-b border-slate-100">
-          <h3 class="text-xs font-bold text-slate-500 uppercase">新增句子</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <input v-model="newSentenceCategory" placeholder="分類名稱 (如: 形容害怕)" class="p-2.5 border rounded-xl text-sm focus:border-brand-500 focus:ring-0">
-            <input v-model="newSentenceText" placeholder="句子內容..." class="sm:col-span-2 p-2.5 border rounded-xl text-sm focus:border-brand-500 focus:ring-0">
-          </div>
-          <button @click="addCustomSentence" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition">
-            新增至背誦庫
-          </button>
-        </div>
-
-        <!-- 現有句子清單列表 (可刪除 / 重置) -->
-        <div class="flex-grow overflow-y-auto py-4 space-y-3">
-          <div class="flex justify-between items-center">
-            <h3 class="text-xs font-bold text-slate-500 uppercase">現有句子 ({{ totalSentencesCount }})</h3>
-            <button @click="resetToDefaultData" class="text-xs text-rose-500 hover:underline">
-              重置為圖片預設句子
-            </button>
-          </div>
-
-          <div v-for="(s, idx) in allSentences" :key="s.id" class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-start gap-3">
-            <div class="text-xs sm:text-sm">
-              <span class="inline-block px-2 py-0.5 bg-slate-200 text-slate-700 rounded font-medium text-[11px] mb-1">{{ s.category }}</span>
-              <p class="font-serif text-slate-800">{{ s.text }}</p>
-            </div>
-            <button @click="deleteSentence(s.id)" class="text-slate-400 hover:text-rose-500 p-1 transition" title="刪除">
-              <i class="fa-solid fa-trash-can text-sm"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-slate-100 flex justify-end">
-          <button @click="showModal = false" class="px-5 py-2 bg-slate-800 text-white rounded-xl text-sm font-semibold hover:bg-slate-900 transition">
-            關閉
-          </button>
         </div>
       </div>
-    </div>
+    </main>
+
+    <!-- 模式二：實時默寫測試 (Typing Test) -->
+    <main v-if="currentTab === 'typing'" class="flex-grow flex flex-col justify-center max-w-3xl mx-auto w-full">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6">
+        <div class="flex justify-between items-center border-b pb-4 border-slate-100">
+          <div>
+            <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">實時默寫打字測驗</span>
+            <h3 class="text-base font-bold text-slate-800">分類：{{ currentTypingItem.category }}</h3>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-slate-400">{{ typingIndex + 1 }} / {{ activeSentences.length }}</span>
+            <button @click="speakText(currentTypingItem.text)" class="p-2 text-slate-500 hover:text-brand-600 rounded-lg transition" title="聽發音">
+              <i class="fa-solid fa-volume-high text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 比對區域 -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 min-h-[110px] flex flex-wrap items-center gap-1 font-serif text-lg leading-relaxed">
+          <template v-for="(char, i) in currentTypingItem.text.split('')" :key="i">
+            <span :class="getTypingCharClass(i)" class="px-0.5 rounded transition">
+              {{ typedInput[i] || '_' }}
+            </span>
+          </template>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-500">請在下方輸入框中進行默寫：</span>
+            <div class="space-x-3">
+              <button @click="giveTypingHint" class="text-brand-600 hover:text-brand-700 font-bold">
+                <i class="fa-regular fa-lightbulb mr-1"></i>提示下一字
+              </button>
+              <button @click="showTypingAnswer = !showTypingAnswer" class="text-slate-500 hover:text-slate-700">
+                <i class="fa-solid fa-eye mr-1"></i>{{ showTypingAnswer ? '隱藏答案' : '顯示完整答案' }}
+              </button>
+            </div>
+          </div>
+
+          <textarea v-model="typedInput" placeholder="開始打字默寫全句..." rows="3" class="w-full p-4 border-2 rounded-xl border-slate-200 focus:border-brand-500 focus:ring-0 font-serif text-base text-slate-800 resize-none transition"></textarea>
+
+          <div v-if="showTypingAnswer" class="p-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl text-sm font-serif">
+            <strong>標準答案：</strong> {{ currentTypingItem.text }}
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <div>
+            <span v-if="isTypingComplete" class="inline-flex items-center gap-1.5 text-emerald-600 font-bold text-sm bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
+              <i class="fa-solid fa-circle-check"></i> 完美默寫正確！
+            </span>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button @click="prevTypingSentence" :disabled="typingIndex === 0" class="px-4 py-2 border rounded-xl text-xs sm:text-sm font-medium text-slate-600 disabled:opacity-40 hover:bg-slate-50">
+              上一句
+            </button>
+            <button @click="nextTypingSentence" :disabled="typingIndex >= activeSentences.length - 1" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-sm disabled:opacity-40">
+              下一句
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 模式三：詞塊組句拼圖 (Block Assembly) -->
+    <main v-if="currentTab === 'blocks'" class="flex-grow flex flex-col justify-center max-w-3xl mx-auto w-full">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6">
+        <div class="flex justify-between items-center border-b pb-4 border-slate-100">
+          <div>
+            <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">詞塊重組拼圖挑戰</span>
+            <h3 class="text-base font-bold text-slate-800">主題：{{ currentBlockItem.category }}</h3>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-slate-400">{{ blockIndex + 1 }} / {{ activeSentences.length }}</span>
+            <button @click="speakText(currentBlockItem.text)" class="p-2 text-slate-500 hover:text-brand-600 rounded-lg transition">
+              <i class="fa-solid fa-volume-high text-base"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 放置區域 -->
+        <div class="min-h-[120px] p-4 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-300 flex flex-wrap gap-2 items-center align-content-start transition">
+          <span v-if="selectedBlocks.length === 0" class="text-slate-400 text-sm italic w-full text-center py-8">
+            點擊下方詞塊，拼湊出完整的描寫句子...
+          </span>
+
+          <button v-for="(b, idx) in selectedBlocks" :key="'sel-'+idx" @click="deselectBlock(idx)" class="px-3.5 py-2 bg-white border-2 border-brand-500 text-brand-900 font-serif font-bold text-base rounded-xl shadow-sm hover:bg-rose-50 hover:border-rose-300 transition flex items-center gap-1.5 group">
+            <span>{{ b }}</span>
+            <i class="fa-solid fa-xmark text-xs text-brand-400 group-hover:text-rose-500"></i>
+          </button>
+        </div>
+
+        <!-- 待選詞塊面板 -->
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-slate-500">待選詞塊（點擊選取）：</div>
+          <div class="flex flex-wrap gap-2.5">
+            <button v-for="(b, idx) in availableBlocks" :key="'avail-'+idx" @click="selectBlock(idx)" class="px-3.5 py-2 bg-slate-100 hover:bg-brand-50 hover:border-brand-300 border border-slate-200 text-slate-800 font-serif text-base rounded-xl font-medium shadow-sm transition active:scale-95">
+              {{ b }}
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+          <button @click="resetBlocks" class="px-3 py-1.5 text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+            <i class="fa-solid fa-arrow-rotate-left"></i> 重置詞塊
+          </button>
+
+          <div v-if="isBlockAssembledCorrect">
+            <span class="text-emerald-600 font-bold text-sm bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center gap-1">
+              <i class="fa-solid fa-circle-check"></i> 語序完全正確！
+            </span>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button @click="prevBlockSentence" :disabled="blockIndex === 0" class="px-4 py-2 border rounded-xl text-xs sm:text-sm font-medium text-slate-600 disabled:opacity-40 hover:bg-slate-50">
+              上一句
+            </button>
+            <button @click="nextBlockSentence" :disabled="blockIndex >= activeSentences.length - 1" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-sm disabled:opacity-40">
+              下一句
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 模式四：成語與佳句記憶卡牌 (Flashcards - Idioms & Passages) -->
+    <main v-if="currentTab === 'cards'" class="flex-grow flex flex-col justify-center max-w-2xl mx-auto w-full">
+      <div class="space-y-4">
+        
+        <!-- 卡牌切換 Filter: 成語 / 長句佳段 -->
+        <div class="flex justify-center space-x-2">
+          <button @click="cardCategoryType = 'all'" :class="cardCategoryType === 'all' ? 'bg-slate-800 text-white font-bold' : 'bg-white text-slate-600 border border-slate-200'" class="px-4 py-1.5 rounded-xl text-xs sm:text-sm transition">
+            全部內容
+          </button>
+          <button @click="cardCategoryType = 'idiom'" :class="cardCategoryType === 'idiom' ? 'bg-slate-800 text-white font-bold' : 'bg-white text-slate-600 border border-slate-200'" class="px-4 py-1.5 rounded-xl text-xs sm:text-sm transition">
+            成語特訓 (22個)
+          </button>
+          <button @click="cardCategoryType = 'sentence'" :class="cardCategoryType === 'sentence' ? 'bg-slate-800 text-white font-bold' : 'bg-white text-slate-600 border border-slate-200'" class="px-4 py-1.5 rounded-xl text-xs sm:text-sm transition">
+            佳句與段落 (20段)
+          </button>
+        </div>
+
+        <!-- 3D 翻轉卡片 -->
+        <div @click="isFlipped = !isFlipped" class="perspective-1000 w-full h-80 cursor-pointer">
+          <div :class="{ 'rotate-y-180': isFlipped }" class="w-full h-full duration-500 transform-style-3d relative rounded-3xl shadow-lg border border-slate-200">
+            
+            <!-- 正面 Front -->
+            <div class="absolute inset-0 backface-hidden bg-white rounded-3xl p-8 flex flex-col justify-between items-center text-center border-2 border-brand-100">
+              <div class="w-full flex justify-between items-center text-xs text-slate-400">
+                <span class="px-3 py-1 bg-brand-50 text-brand-700 rounded-full font-bold">{{ currentCardItem.category }}</span>
+                <span>點擊卡片翻面</span>
+              </div>
+
+              <div class="space-y-3 my-auto">
+                <div class="text-xs text-slate-400 uppercase tracking-widest font-bold">提示提示</div>
+                <div v-if="currentCardItem.isIdiom" class="font-serif text-3xl font-black text-slate-800">
+                  {{ currentCardItem.text }}
+                </div>
+                <div v-else class="font-serif text-2xl font-bold text-slate-800">
+                  「 {{ currentCardItem.text.slice(0, 6) }}... 」
+                </div>
+                <div class="text-xs text-slate-400">類別: {{ currentCardItem.isIdiom ? '重點成語' : '經典句型段落' }}</div>
+              </div>
+
+              <div class="text-xs text-brand-600 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-rotate"></i> 點擊卡片翻看詳細釋義與完整內容
+              </div>
+            </div>
+
+            <!-- 背面 Back -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-8 flex flex-col justify-between items-center text-center">
+              <div class="w-full flex justify-between items-center text-xs text-slate-400">
+                <span class="px-3 py-1 bg-slate-700 text-slate-200 rounded-full font-bold">{{ currentCardItem.category }}</span>
+                <button @click.stop="speakText(currentCardItem.text)" class="text-slate-300 hover:text-white p-1" title="朗讀">
+                  <i class="fa-solid fa-volume-high text-base"></i>
+                </button>
+              </div>
+
+              <div class="my-auto px-2 space-y-3">
+                <p class="font-serif text-xl sm:text-2xl leading-relaxed font-semibold text-slate-100">
+                  {{ currentCardItem.text }}
+                </p>
+                <p v-if="currentCardItem.explanation" class="text-xs sm:text-sm text-emerald-300 font-sans border-t border-slate-700 pt-2">
+                  💡 釋義：{{ currentCardItem.explanation }}
+                </p>
+              </div>
+
+              <div class="w-full pt-3 border-t border-slate-700/60 flex justify-center space-x-2" @click.stop>
+                <button @click="setCardStatus('unmastered')" :class="currentCardItem.status === 'unmastered' ? 'ring-2 ring-rose-400' : ''" class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-semibold">🔴 未掌握</button>
+                <button @click="setCardStatus('learning')" :class="currentCardItem.status === 'learning' ? 'ring-2 ring-amber-400' : ''" class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-xl text-xs font-semibold">🟡 學習中</button>
+                <button @click="setCardStatus('mastered')" :class="currentCardItem.status === 'mastered' ? 'ring-2 ring-emerald-400' : ''" class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-xl text-xs font-semibold">🟢 已精通</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 導覽控制器 -->
+        <div class="flex items-center justify-between px-2">
+          <button @click="prevCard" :disabled="cardIndex === 0" class="px-4 py-2 bg-white border rounded-xl text-xs sm:text-sm font-semibold text-slate-700 shadow-sm disabled:opacity-40 hover:bg-slate-50">
+            <i class="fa-solid fa-chevron-left mr-1"></i> 上一張
+          </button>
+          <span class="text-xs sm:text-sm font-bold text-slate-500">
+            {{ cardIndex + 1 }} / {{ filteredCardList.length }}
+          </span>
+          <button @click="nextCard" :disabled="cardIndex >= filteredCardList.length - 1" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm disabled:opacity-40">
+            下一張 <i class="fa-solid fa-chevron-right ml-1"></i>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- 模式五：✨ 句式仿寫與二次創作工作室 (Imitation Studio) -->
+    <main v-if="currentTab === 'imitate'" class="space-y-6 flex-grow max-w-4xl mx-auto w-full">
+      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+        <div>
+          <h2 class="text-xl font-black text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> 句式拆解與仿寫工作室
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">呈分試高分秘訣：學習拆解好詞好句的結構「外貌/動作描寫 + 修辭手法 + 心理反應」，然後靈活套用到自己的作文中！</p>
+        </div>
+
+        <!-- 選擇仿寫模板 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button v-for="tpl in imitationTemplates" :key="tpl.id" @click="selectedTemplate = tpl"
+                  :class="selectedTemplate.id === tpl.id ? 'border-brand-500 bg-brand-50/50 text-brand-900 ring-2 ring-brand-500/20' : 'border-slate-200 hover:bg-slate-50'"
+                  class="p-4 border rounded-2xl text-left transition flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-brand-600 uppercase">{{ tpl.category }}</span>
+              <h4 class="font-bold text-sm text-slate-800 mt-1">{{ tpl.title }}</h4>
+              <p class="text-[11px] text-slate-500 mt-1 line-clamp-2">{{ tpl.original }}</p>
+            </div>
+            <span class="text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded text-slate-600 mt-3 self-start">點擊套用公式</span>
+          </button>
+        </div>
+
+        <!-- 模板拆解展示與填空 -->
+        <div v-if="selectedTemplate" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+          <div class="p-3 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm">
+            <span class="font-bold text-slate-700">📜 經典原句：</span>
+            <span class="font-serif text-slate-900 font-bold">「{{ selectedTemplate.original }}」</span>
+          </div>
+
+          <div class="text-xs font-bold text-brand-700 flex items-center gap-1">
+            <i class="fa-solid fa-code-branch"></i> 公式拆解：{{ selectedTemplate.formula }}
+          </div>
+
+          <!-- 互動仿寫填空表單 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div v-for="(inputKey, label) in selectedTemplate.slots" :key="label" class="space-y-1">
+              <label class="text-xs font-bold text-slate-600">{{ label }}</label>
+              <input v-model="userImitationSlots[inputKey]" :placeholder="selectedTemplate.placeholders[inputKey]" class="w-full p-2.5 bg-white border rounded-xl text-sm focus:border-brand-500 focus:ring-0">
+            </div>
+          </div>
+
+          <!-- 即時生成學生原創句 -->
+          <div class="p-4 bg-emerald-900 text-white rounded-xl space-y-2">
+            <div class="text-xs text-emerald-300 font-bold uppercase tracking-wider">🌟 你的創作新句（可直接複製用於作文）：</div>
+            <div class="font-serif text-lg leading-relaxed text-emerald-50">
+              {{ generatedImitationSentence }}
+            </div>
+          </div>
+
+          <div class="flex justify-end space-x-2">
+            <button @click="copyGeneratedText" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-regular fa-copy"></i> 複製我的句子
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 模式六：📝 20個呈分試作文題目庫與應用指南 (20 Exam Prompts) -->
+    <main v-if="currentTab === 'topics'" class="space-y-4 flex-grow max-w-5xl mx-auto w-full">
+      <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-6 rounded-2xl shadow-sm flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 class="text-xl font-black flex items-center gap-2">
+            <i class="fa-solid fa-pen-nib text-amber-400"></i> 小六呈分試 20大必考作文題庫
+          </h2>
+          <p class="text-xs text-slate-300 mt-1">點擊任意題目，查看如何將工作紙中的好詞佳句無縫應用到作文中！</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-white/10 px-3 py-1.5 rounded-xl border border-white/20">共 20 題名校模擬題</span>
+        </div>
+      </div>
+
+      <!-- 20 個題目列表 -->
+      <div class="space-y-3">
+        <div v-for="(topic, idx) in essayTopics" :key="topic.id" class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow transition">
+          <div @click="topic.expanded = !topic.expanded" class="flex justify-between items-center cursor-pointer">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 font-black text-sm flex items-center justify-center">
+                {{ idx + 1 }}
+              </span>
+              <div>
+                <h3 class="font-black text-base text-slate-800">{{ topic.title }}</h3>
+                <div class="flex flex-wrap gap-1 mt-1">
+                  <span v-for="tag in topic.tags" :key="tag" class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+                    {{ tag }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 text-slate-400">
+              <span class="text-xs hidden sm:inline">查看應對心法與佳句推薦</span>
+              <i :class="topic.expanded ? 'fa-chevron-up' : 'fa-chevron-down'" class="fa-solid text-sm"></i>
+            </div>
+          </div>
+
+          <!-- 展開的詳細應用指南 -->
+          <div v-if="topic.expanded" class="mt-4 pt-4 border-t border-slate-100 space-y-4">
+            <div class="bg-amber-50/60 p-3.5 rounded-xl border border-amber-200/60 text-xs text-amber-900">
+              <strong>💡 呈分試寫作構思脈絡：</strong> {{ topic.plot }}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <!-- 推薦必用成語 -->
+              <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-700 block mb-1.5">🎯 推薦套用成語：</span>
+                <div class="flex flex-wrap gap-1.5">
+                  <span v-for="idiom in topic.recommendedIdioms" :key="idiom" class="px-2 py-1 bg-white border border-slate-300 font-serif font-bold text-slate-800 rounded">
+                    {{ idiom }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- 推薦經典佳句 -->
+              <div class="p-3.5 bg-emerald-50/50 rounded-xl border border-emerald-200/60 text-xs">
+                <span class="font-bold text-emerald-800 block mb-1.5">✍️ 推薦升格佳句：</span>
+                <p class="font-serif text-emerald-950 font-medium leading-relaxed">
+                  「{{ topic.recommendedSentence }}」
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
 
   </div>
 
-  <!-- Application JavaScript App State -->
+  <!-- App Script Logic -->
   <script>
     const { createApp, ref, computed, watch, onMounted } = Vue;
 
-    // 預設載入自圖片中的內容 (正確繁體字)
-    const DEFAULT_SENTENCES = [
+    // 工作紙完整資料庫 (正確繁體字，完全收錄兩張紙的所有內容)
+    const ALL_ITEMS = [
+      // 形容快樂／高興
+      { id: 's1', category: '快樂／高興', text: '老師當眾誇我作文寫得好時，我的臉頰瞬間熱起來，嘴角止不住地往上翹，心裡很是得意。', status: 'unmastered', tags: ['臉部描寫', '心理描寫'] },
+      { id: 's2', category: '快樂／高興', text: '喜悅在我的胸腔裡鼓脹着，像一個熱氣球，使我感覺自己下一秒就要飛起來。', status: 'unmastered', tags: ['比喻', '內心感受'] },
+      
+      // 形容憤怒／不滿
+      { id: 's3', category: '憤怒／不滿', text: '我像一頭失控的獅子，站起來大吼一聲，再「砰」的一聲用力摔門。', status: 'unmastered', tags: ['比喻', '擬聲詞', '動作描寫'] },
+      { id: 's4', category: '憤怒／不滿', text: '哥哥知道我弄丟他的書後，臉一下子黑了下來，嘴唇抖了抖，連手上的鉛筆也被他折斷了。', status: 'unmastered', tags: ['神態描寫', '細節描寫'] },
+
+      // 形容難過／失望
+      { id: 's5', category: '難過／失望', text: '一知道自己落選了，他臉上的笑容瞬間凍結，眼神黯淡了下去。', status: 'unmastered', tags: ['神態變化', '失望'] },
+      { id: 's6', category: '難過／失望', text: '窗外的雨漸漸瀝瀝地下。灰蒙蒙的天空，就像他此刻怎麼也明朗不起來的心情。', status: 'unmastered', tags: ['借景抒情', '環境描寫'] },
+
+      // 形容害怕／恐懼
+      { id: 's7', category: '害怕／恐懼', text: '他驚恐地張大了嘴，卻發不出任何聲音，整張臉慘白得像張紙，毫無血色。', status: 'unmastered', tags: ['外貌比喻', '極度恐懼'] },
+      { id: 's8', category: '害怕／恐懼', text: '她的雙眼圓睜，嘴唇不受控制地微微顫抖着，彷彿下一秒就要昏過去似的。', status: 'unmastered', tags: ['神態細節', '誇張'] },
+
+      // 形容焦慮／緊張
+      { id: 's9', category: '焦慮／緊張', text: '他的眉頭深鎖，不停來回踱步，宛如一隻因受困籠中而焦躁的小鳥。', status: 'unmastered', tags: ['比喻', '動作描寫'] },
+      { id: 's10', category: '焦慮／緊張', text: '考場時鐘倒計時的滴答聲，每一下都敲在我緊繃的神經上，叫人幾乎喘不過氣來。', status: 'unmastered', tags: ['心理感受', '考場描寫'] },
+
+      // 形容煩悶／不快
+      { id: 's11', category: '煩悶／不快', text: '她低頭不語，撥弄着亂糟糟的頭髮，整個人縮成一團，像被悶氣困住了一樣。', status: 'unmastered', tags: ['肢體語言', '比喻'] },
+      { id: 's12', category: '煩悶／不快', text: '他的眉間擰着小小的結，低頭盯着地面，鞋尖一下又一下地踢着小石子。', status: 'unmastered', tags: ['細節動作', '煩躁'] },
+
+      // 形容害羞／尷尬
+      { id: 's13', category: '害羞／尷尬', text: '他呆呆地站在那裡，手腳不知道往哪兒擺，像根木頭一樣僵硬。', status: 'unmastered', tags: ['比喻', '肢體僵硬'] },
+      { id: 's14', category: '害羞／尷尬', text: '原本熱鬧的場面，瞬間降到冰點，只留下尷尬的空氣在流動，令他窘迫得想找個洞鑽進去。', status: 'unmastered', tags: ['誇張', '場面描寫'] },
+
+      // 思念 (Idioms & Passages)
+      { id: 'i1', category: '思念', text: '輾轉反側', explanation: '翻來覆去睡不著，形容心中思念重重。', isIdiom: true, status: 'unmastered' },
+      { id: 'i2', category: '思念', text: '魂牽夢縈', explanation: '形容思念深切，連做夢都牽掛著。', isIdiom: true, status: 'unmastered' },
+      { id: 'i3', category: '思念', text: '一日三秋', explanation: '一天不見像過了三年，形容思念殷切。', isIdiom: true, status: 'unmastered' },
+      { id: 'i4', category: '思念', text: '念念不忘', explanation: '時刻思念，永不忘懷。', isIdiom: true, status: 'unmastered' },
+      { id: 's15', category: '思念', text: '我托空氣為郵差，把我的問候與思念裝訂成包裹，貼上的祝福郵票，寄給在天上的你。', status: 'unmastered', tags: ['擬人', '寄情'] },
+      { id: 's16', category: '思念', text: '我看著圓圓的月亮，心裏默默地說：「月亮！月亮！看見我的外公嗎？請你告訴他，我們很掛念他啊！還有，他那邊冷嗎？如你知道他在哪裏，請代我叮囑他，要蓋好被子。」', status: 'unmastered', tags: ['對話描寫', '寄託抒情'] },
+
+      // 悲傷 (Idioms & Passages)
+      { id: 'i5', category: '悲傷', text: '呼天搶地', explanation: '大聲哭叫，以頭撞地，形容極度悲傷。', isIdiom: true, status: 'unmastered' },
+      { id: 'i6', category: '悲傷', text: '聲淚俱下', explanation: '邊哭邊說，聲音與眼淚同時流下。', isIdiom: true, status: 'unmastered' },
+      { id: 'i7', category: '悲傷', text: '頓足捶胸', explanation: '跺腳捶胸，形容非常悲痛或懊悔。', isIdiom: true, status: 'unmastered' },
+      { id: 'i8', category: '悲傷', text: '淚如泉湧', explanation: '眼淚像泉水般湧出，形容極度悲傷。', isIdiom: true, status: 'unmastered' },
+      { id: 'i9', category: '悲傷', text: '死去活來', explanation: '形容悲痛到了極點。', isIdiom: true, status: 'unmastered' },
+      { id: 'i10', category: '悲傷', text: '痛不欲生', explanation: '悲痛得不想活下去。', isIdiom: true, status: 'unmastered' },
+      { id: 'i11', category: '悲傷', text: '肝腸寸斷', explanation: '肝腸割成一寸寸，比喻極度悲痛。', isIdiom: true, status: 'unmastered' },
+      { id: 'i12', category: '悲傷', text: '熱淚盈眶', explanation: '滿腔熱淚充滿眼眶，形容極度感動作痛。', isIdiom: true, status: 'unmastered' },
+      { id: 'i13', category: '悲傷', text: '泣涕如雨', explanation: '哭泣流淚像下雨一樣。', isIdiom: true, status: 'unmastered' },
+      { id: 'i14', category: '悲傷', text: '心如刀割', explanation: '內心像被刀割一樣難過。', isIdiom: true, status: 'unmastered' },
+      { id: 's17', category: '悲傷', text: '不爭氣的眼淚卻不由自主地從眼眶淌下，豆大的淚珠一顆顆流到臉頰、擦拭的掌心，直至地上。不消一會兒，我崩潰了，豪啕大哭起來。', status: 'unmastered', tags: ['特寫描寫', '感情爆發'] },
+
+      // 驚喜 (Idioms & Passages)
+      { id: 'i15', category: '驚喜', text: '目瞪口呆', explanation: '因吃驚而發愣。', isIdiom: true, status: 'unmastered' },
+      { id: 'i16', category: '驚喜', text: '驚喜交集', explanation: '又驚又喜的心情交織在一起。', isIdiom: true, status: 'unmastered' },
+      { id: 'i17', category: '驚喜', text: '受寵若驚', explanation: '因得到意想不到的殊榮或照顧而感到驚喜。', isIdiom: true, status: 'unmastered' },
+      { id: 'i18', category: '驚喜', text: '欣喜若狂', explanation: '高興得像發狂了一樣。', isIdiom: true, status: 'unmastered' },
+      { id: 'i19', category: '驚喜', text: '喜上眉梢', explanation: '喜悅流露在眉宇之間。', isIdiom: true, status: 'unmastered' },
+      { id: 'i20', category: '驚喜', text: '喜出望外', explanation: '事情結果比預想的還要高興。', isIdiom: true, status: 'unmastered' },
+      { id: 'i21', category: '驚喜', text: '笑逐顏開', explanation: '笑意在臉上流露出來。', isIdiom: true, status: 'unmastered' },
+      { id: 's18', category: '驚喜', text: '看著這架我夢寐以求的鋼琴，突如其來的喜悅衝擊著我全身的每一個細胞，我興奮得幾乎發狂，情不自禁地手舞足蹈起來。', status: 'unmastered', tags: ['誇張', '生理反應'] },
+      { id: 's19', category: '驚喜', text: '沒想到在這個陌生的城市遇到了老朋友，她萬分驚喜，緊緊地握住老朋友的手，臉上煥發著光彩，露出了久違的笑容，就像一朵沙漠的花兒得到了甘露的滋潤。', status: 'unmastered', tags: ['比喻', '神態描寫'] },
+      { id: 's20', category: '驚喜', text: '聽到老師叫到我的名字，我驚愕地站起來，張大著嘴巴，狐疑地看著老師，真懷疑自己聽錯了，確認無誤後，喜悅像一股洶湧的激流，沖得我的心頭突突亂跳起來。我努力讓自己的臉上平靜一些，好像做夢一般在雷鳴般的掌聲中輕飄飄地向領獎臺走去。', status: 'unmastered', tags: ['心理變化', '領獎場面'] }
+    ];
+
+    // 20 個小六呈分試作文題目與指導
+    const ESSAY_TOPICS = [
+      { id: 1, title: '《一次難忘的比賽》', tags: ['記敘文', '比賽', '情緒起伏'], plot: '描寫比賽前緊張 -> 比賽中拚盡全力 -> 獲勝時驚喜興奮。', recommendedIdioms: ['欣喜若狂', '喜出望外', '目瞪口呆'], recommendedSentence: '聽到老師叫到我的名字，確認無誤後，喜悅像一股洶湧的激流，沖得我的心頭突突亂跳起來。', expanded: false },
+      { id: 2, title: '《一次令我懊悔的經歷》', tags: ['記敘文', '教訓', '心理描寫'], plot: '因為衝動做錯事 -> 引發憤怒或破壞 -> 事後難過自責。', recommendedIdioms: ['頓足捶胸', '聲淚俱下', '心如刀割'], recommendedSentence: '我像一頭失控的獅子，站起來大吼一聲，再「砰」的一聲用力摔門。', expanded: false },
+      { id: 3, title: '《發佈成績的那一刻》', tags: ['考場描寫', '緊張', '結果轉折'], plot: '發卷前極度緊張 -> 接過考卷看到分數 -> 喜悅或失望。', recommendedIdioms: ['受寵若驚', '喜上眉梢', '熱淚盈眶'], recommendedSentence: '考場時鐘倒計時的滴答聲，每一下都敲 me 緊繃的神經上，叫人幾乎喘不過氣來。', expanded: false },
+      { id: 4, title: '《給遠方親人的一封信》', tags: ['應用文', '書信', '抒情'], plot: '表達對親人的思念 -> 回憶過去相處點滴 -> 寄託祝福。', recommendedIdioms: ['魂牽夢縈', '念念不忘', '一日三秋'], recommendedSentence: '我托空氣為郵差，把我的問候與思念裝訂成包裹，貼上的祝福郵票，寄給遠方的你。', expanded: false },
+      { id: 5, title: '《一次出乎意料的驚喜》', tags: ['驚喜', '禮物', '感動'], plot: '原本以為會失望 -> 突如其來的驚喜禮物 -> 萬分高興。', recommendedIdioms: ['驚喜交集', '受寵若驚', '笑逐顏開'], recommendedSentence: '突如其來的喜悅衝擊著我全身的每一個細胞，我興奮得幾乎發狂，情不自禁地手舞足蹈起來。', expanded: false },
+      { id: 6, title: '《一次尷尬的場面》', tags: ['幽默', '出糗', '心理描寫'], plot: '在公共場所做錯事/弄錯人 -> 場面冰封 -> 害羞得想躲起來。', recommendedIdioms: ['目瞪口呆'], recommendedSentence: '原本熱鬧的場面，瞬間降到冰點，只留下尷尬的空氣在流動，令他窘迫得想找個洞鑽進去。', expanded: false },
+      { id: 7, title: '《我和好朋友吵架了》', tags: ['人際關係', '憤怒', '和解'], plot: '誤會引發憤怒摔東西 -> 冷戰煩悶 -> 誠懇道歉重獲友誼。', recommendedIdioms: ['肝腸寸斷', '心如刀割'], recommendedSentence: '哥哥知道我弄丟他的書後，臉一下子黑了下來，嘴唇抖了抖，連手上的鉛筆也被他折斷了。', expanded: false },
+      { id: 8, title: '《站在領獎臺上的那一刻》', tags: ['榮譽', '感動', '努力'], plot: '台上宣佈得獎名字 -> 不敢相信 -> 輕飄飄上台領獎。', recommendedIdioms: ['欣喜若狂', '喜極而泣'], recommendedSentence: '好像做夢一般在雷鳴般的掌聲中輕飄飄地向領獎臺走去。', expanded: false },
+      { id: 9, title: '《最令我心痛的一件事》', tags: ['悲傷', '失去', '深情'], plot: '親人或寵物離去 -> 極度悲傷哭泣 -> 成長與珍惜。', recommendedIdioms: ['淚如泉湧', '痛不欲生', '呼天搶地'], recommendedSentence: '不爭氣的眼淚卻不由自主地從眼眶淌下，豆大的淚珠一顆顆流到臉頰...我崩潰了，豪啕大哭起來。', expanded: false },
+      { id: 10, title: '《在公車上發生的一件事》', tags: ['日常見聞', '讓座/衝突'], plot: '公車上悶熱煩躁 -> 發生讓座或爭執場面 -> 內心領悟。', recommendedIdioms: ['目瞪口呆'], recommendedSentence: '她低頭不語，撥弄着亂糟糟的頭髮，整個人縮成一團，像被悶氣困住了一樣。', expanded: false },
+      { id: 11, title: '《一件啼笑皆非的事》', tags: ['趣味', '誤會'], plot: '誤會導致緊張尷尬 -> 揭開真相後全場大笑。', recommendedIdioms: ['喜出望外', '笑逐顏開'], recommendedSentence: '他呆呆地站在那裡，手腳不知道往哪兒擺，像根木頭一樣僵硬。', expanded: false },
+      { id: 12, title: '《最後一次校運會》', tags: ['畢業離別', '拼搏'], plot: '最後一年參加項目 -> 接力賽緊張渡過 -> 懷念小學生活。', recommendedIdioms: ['念念不忘', '熱淚盈眶'], recommendedSentence: '他的眉頭深鎖，不停來回踱步，宛如一隻因受困籠中而焦躁的小鳥。', expanded: false },
+      { id: 13, title: '《那一天，我勇敢地站了出來》', tags: ['勇氣', '克服恐懼'], plot: '面對強權或困難感到害怕 -> 克服恐懼站出講話 -> 心情釋懷。', recommendedIdioms: ['受寵若驚'], recommendedSentence: '他驚恐地張大了嘴，卻發不出任何聲音，整張臉慘白得像張紙，毫無血色。', expanded: false },
+      { id: 14, title: '《黑夜裡的獨處經歷》', tags: ['環境描寫', '恐懼'], plot: '獨自一人在家 -> 聽見怪聲雙腿發抖 -> 原來是虛驚一場。', recommendedIdioms: ['目瞪口呆'], recommendedSentence: '她的雙眼圓睜，嘴唇不受控制地微微顫抖着，彷彿下一秒就要昏過去似的。', expanded: false },
+      { id: 15, title: '《收到一件特別的禮物》', tags: ['感謝', '驚喜'], plot: '期待很久的禮物突然出現 -> 興奮狂喜 -> 感謝父母。', recommendedIdioms: ['欣喜若狂', '喜出望外'], recommendedSentence: '喜悅在我的胸腔裡鼓脹着，像一個熱氣球，使我感覺自己下一秒就要飛起來。', expanded: false },
+      { id: 16, title: '《一次誤會》', tags: ['曲折', '解開誤會'], plot: '被朋友誤解感到委屈難過 -> 灰暗心情 -> 冰釋前嫌。', recommendedIdioms: ['聲淚俱下'], recommendedSentence: '窗外的雨漸漸瀝瀝地下。灰蒙蒙的天空，就像他此刻怎麼也明朗不起來的心情。', expanded: false },
+      { id: 17, title: '《思念遠方的外公》', tags: ['親情', '懷念'], plot: '抬頭看月亮想起外公 -> 回憶童年 -> 傳達叮囑與關懷。', recommendedIdioms: ['輾轉反側', '魂牽夢縈'], recommendedSentence: '我看著圓圓的月亮，心裏默默地說：「月亮！月亮！看見我的外公嗎？請你告訴他，我們很掛念他啊！」', expanded: false },
+      { id: 18, title: '《一次失敗的教訓》', tags: ['挫折', '反思'], plot: '驕傲自滿導致比賽落選 -> 笑容凍結 -> 重新振作。', recommendedIdioms: ['頓足捶胸'], recommendedSentence: '一知道自己落選了，他臉上的笑容瞬間凍結，眼神黯淡了下去。', expanded: false },
+      { id: 19, title: '《重逢》', tags: ['友人', '意外'], plot: '在陌生環境偶遇多年老友 -> 萬分驚喜 -> 歡聚聊童年。', recommendedIdioms: ['驚喜交集', '笑逐顏開'], recommendedSentence: '臉上煥發著光彩，露出了久違的笑容，就像一朵沙漠的花兒得到了甘露的滋潤。', expanded: false },
+      { id: 20, title: '《雨天裡的心情》', tags: ['景物描寫', '抒情'], plot: '下雨天心情煩躁 -> 低頭踢石子 -> 雨過天晴收穫平靜。', recommendedIdioms: ['念念不忘'], recommendedSentence: '他的眉間擰着小小的結，低頭盯着地面，鞋尖一下又一下地踢着小石子。', expanded: false }
+    ];
+
+    // 仿寫公式模板
+    const IMITATION_TEMPLATES = [
       {
-        id: 's1',
-        category: '形容害怕／恐懼',
-        text: '他驚恐地張大了嘴，卻發不出任何聲音，整張臉慘白得像張紙，毫無血色。',
-        status: 'learning'
+        id: 't1',
+        title: '熱氣球比喻句式',
+        category: '快樂/興奮',
+        original: '喜悅在我的胸腔裡鼓脹着，像一個熱氣球，使我感覺自己下一秒就要飛起來。',
+        formula: '【情感】 + 在我的 【部位】 鼓脹着 + 像 【事物】 + 使我 【動作反應】',
+        slots: { emotion: 'emotion', body: 'body', object: 'object', action: 'action' },
+        placeholders: { emotion: '例如: 自豪感', body: '例如: 心房裡', object: '例如: 綻放的煙花', action: '例如: 忍不住要歡呼起來' }
       },
       {
-        id: 's2',
-        category: '形容害怕／恐懼',
-        text: '她的雙眼圓睜，嘴唇不受控制地微微顫抖着，仿佛下一秒就要昏過去似的。',
-        status: 'unmastered'
+        id: 't2',
+        title: '困籠小鳥句式',
+        category: '緊張/焦慮',
+        original: '他的眉頭深鎖，不停來回踱步，宛如一隻因受困籠中而焦躁的小鳥。',
+        formula: '【外貌動作】 + 宛如一隻 【狀態描述】 的小鳥/動物',
+        slots: { action: 'action', state: 'state' },
+        placeholders: { action: '例如: 她緊握雙手，腳步急促', state: '例如: 迷失在森林中而慌張' }
       },
       {
-        id: 's3',
-        category: '形容焦慮／緊張',
-        text: '他的眉頭深鎖，不停來回踱步，宛如一隻因受困籠中而焦躁的小鳥。',
-        status: 'unmastered'
-      },
-      {
-        id: 's4',
-        category: '形容焦慮／緊張',
-        text: '考場時鐘倒計時的滴答聲，每一下都敲在我緊繃的神經上，叫人幾乎喘不過氣來。',
-        status: 'mastered'
+        id: 't3',
+        title: '沙漠甘露比喻句',
+        category: '驚喜/感動',
+        original: '露出了久違的笑容，就像一朵沙漠的花兒得到了甘露的滋潤。',
+        formula: '【表情/神態】 + 就像 【主體】 得到了 【事物】 的滋潤',
+        slots: { expression: 'expression', subject: 'subject', thing: 'thing' },
+        placeholders: { expression: '例如: 眼神中流露出希望的光芒', subject: '例如: 久旱的秧苗', thing: '例如: 春雨' }
       }
     ];
 
     createApp({
       setup() {
-        // ---- 狀態 Variables ----
-        const currentMode = ref('mask'); // 'mask' | 'typing' | 'blocks' | 'flashcard'
+        const currentTab = ref('mask');
         const selectedCategory = ref('ALL');
-        const maskLevel = ref(50); // 0, 25, 50, 75, 100
-        const speechLang = ref('zh-HK'); // 'zh-HK' (粵語) or 'zh-TW' (國語/普通話)
-        
-        // 句子庫資料
-        const sentences = ref([]);
+        const maskLevel = ref(50);
+        const speechLang = ref('zh-HK'); // 'zh-HK' 粵語, 'zh-TW' 國語
 
-        // Modal 狀態
-        const showModal = ref(false);
-        const newSentenceCategory = ref('');
-        const newSentenceText = ref('');
+        const tabs = [
+          { id: 'mask', name: '🙈 分級遮擋背誦', icon: 'fa-solid fa-eye-slash' },
+          { id: 'typing', name: '✍️ 實時默寫測試', icon: 'fa-solid fa-keyboard' },
+          { id: 'blocks', name: '🧩 詞塊重組拼圖', icon: 'fa-solid fa-puzzle-piece' },
+          { id: 'cards', name: '🎴 成語與佳句卡牌', icon: 'fa-solid fa-clone' },
+          { id: 'imitate', name: '✨ 句式仿寫工作室', icon: 'fa-solid fa-wand-magic-sparkles' },
+          { id: 'topics', name: '📝 20個呈分試作文題', icon: 'fa-solid fa-pen-nib' }
+        ];
 
-        // 默寫打字模式狀態
+        const sentences = ref([...ALL_ITEMS]);
+        const essayTopics = ref([...ESSAY_TOPICS]);
+
+        // 記憶卡片分類過濾
+        const cardCategoryType = ref('all'); // 'all', 'idiom', 'sentence'
+        const cardIndex = ref(0);
+        const isFlipped = ref(false);
+
+        // 默寫模式
         const typingIndex = ref(0);
         const typedInput = ref('');
         const showTypingAnswer = ref(false);
 
-        // 詞塊重組模式狀態
+        // 詞塊重組模式
         const blockIndex = ref(0);
         const availableBlocks = ref([]);
         const selectedBlocks = ref([]);
 
-        // 記憶卡片模式狀態
-        const cardIndex = ref(0);
-        const isFlipped = ref(false);
-
-        // ---- 初始化與 Persistence ----
-        onMounted(() => {
-          const localData = localStorage.getItem('zh_recitation_sentences');
-          if (localData) {
-            try {
-              sentences.value = JSON.parse(localData);
-            } catch(e) {
-              sentences.value = [...DEFAULT_SENTENCES];
-            }
-          } else {
-            sentences.value = [...DEFAULT_SENTENCES];
-          }
+        // 仿寫工作室
+        const imitationTemplates = ref(IMITATION_TEMPLATES);
+        const selectedTemplate = ref(IMITATION_TEMPLATES[0]);
+        const userImitationSlots = ref({
+          emotion: '自豪感',
+          body: '心房裡',
+          object: '綻放的彩煙',
+          action: '忍不住要歡呼出來',
+          action2: '她緊握雙手，腳步急促',
+          state: '迷失在森林中而慌張',
+          expression: '眼神中流露出希望的光芒',
+          subject: '久旱的秧苗',
+          thing: '春雨'
         });
 
-        watch(sentences, (newVal) => {
-          localStorage.setItem('zh_recitation_sentences', JSON.stringify(newVal));
-        }, { deep: true });
-
-        // ---- 計算屬性 Computed ----
-        const allSentences = computed(() => sentences.value);
-
-        const categories = computed(() => {
-          const map = {};
-          sentences.value.forEach(s => {
-            if (!map[s.category]) {
-              map[s.category] = { id: s.category, name: s.category, sentences: [] };
-            }
-            map[s.category].sentences.push(s);
-          });
-          return Object.values(map);
+        // 算總數
+        const categoriesList = computed(() => {
+          return Array.from(new Set(sentences.value.map(s => s.category)));
         });
 
         const activeSentences = computed(() => {
-          if (selectedCategory.value === 'ALL') return sentences.value;
-          return sentences.value.filter(s => s.category === selectedCategory.value);
+          // 只篩選出句子/段落，用於背誦與默寫
+          let list = sentences.value.filter(s => !s.isIdiom);
+          if (selectedCategory.value !== 'ALL') {
+            list = list.filter(s => s.category === selectedCategory.value);
+          }
+          return list;
         });
 
-        const totalSentencesCount = computed(() => sentences.value.length);
+        const filteredCardList = computed(() => {
+          let list = sentences.value;
+          if (selectedCategory.value !== 'ALL') {
+            list = list.filter(s => s.category === selectedCategory.value);
+          }
+          if (cardCategoryType.value === 'idiom') {
+            list = list.filter(s => s.isIdiom);
+          } else if (cardCategoryType.value === 'sentence') {
+            list = list.filter(s => !s.isIdiom);
+          }
+          return list;
+        });
+
+        const totalItemsCount = computed(() => sentences.value.length);
         const masteredCount = computed(() => sentences.value.filter(s => s.status === 'mastered').length);
         const learningCount = computed(() => sentences.value.filter(s => s.status === 'learning').length);
         const unmasteredCount = computed(() => sentences.value.filter(s => s.status === 'unmastered').length);
+        const overallProgress = computed(() => Math.round((masteredCount.value / totalItemsCount.value) * 100) || 0);
 
-        const overallProgress = computed(() => {
-          if (totalSentencesCount.value === 0) return 0;
-          return Math.round((masteredCount.value / totalSentencesCount.value) * 100);
+        const speechLangName = computed(() => speechLang.value === 'zh-HK' ? '廣東話朗讀' : '國語朗讀');
+
+        // Current item computed
+        const currentTypingItem = computed(() => activeSentences.value[typingIndex.value] || { text: '', category: '' });
+        const currentBlockItem = computed(() => activeSentences.value[blockIndex.value] || { text: '', category: '' });
+        const currentCardItem = computed(() => filteredCardList.value[cardIndex.value] || { text: '', category: '' });
+
+        // 仿寫生成動態文字
+        const generatedImitationSentence = computed(() => {
+          const tpl = selectedTemplate.value;
+          const u = userImitationSlots.value;
+          if (tpl.id === 't1') {
+            return `${u.emotion || '喜悅'}在我的${u.body || '胸腔裡'}鼓脹着，像一個${u.object || '熱氣球'}，使我感覺自己下一秒就要${u.action || '飛起來'}。`;
+          } else if (tpl.id === 't2') {
+            return `${u.action2 || '他的眉頭深鎖，不停來回踱步'}，宛如一隻因${u.state || '受困籠中而焦躁'}的小鳥。`;
+          } else if (tpl.id === 't3') {
+            return `${u.expression || '露出了久違的笑容'}，就像一朵${u.subject || '沙漠的花兒'}得到了${u.thing || '甘露'}的滋潤。`;
+          }
+          return '';
         });
 
-        const speechLangName = computed(() => {
-          return speechLang.value === 'zh-HK' ? '粵語朗讀' : '國語朗讀';
-        });
-
-        // Current active item for single-item modes
-        const currentTypingItem = computed(() => {
-          return activeSentences.value[typingIndex.value] || { text: '', category: '' };
-        });
-
-        const currentBlockItem = computed(() => {
-          return activeSentences.value[blockIndex.value] || { text: '', category: '' };
-        });
-
-        const currentCardItem = computed(() => {
-          return activeSentences.value[cardIndex.value] || { text: '', category: '' };
-        });
-
-        // ---- 遮擋模式 Logic ----
+        // Methods
         function processMaskedText(text, level) {
-          const punctuations = ['，', '。', '；', '！', '？', '、', '「', '」', '《', '》'];
-          const chars = text.split('');
+          const puncts = ['，', '。', '；', '！', '？', '、', '「', '」', '《', '》', '…', '（', '）', '『', '』'];
           const maskRatio = level / 100;
-
-          return chars.map((ch, idx) => {
-            const isPunct = punctuations.includes(ch);
-            // Deterministic hashing per char index for uniform mask ratio
-            const pseudoRandom = ((idx * 7 + 13) % 10) / 10;
-            const masked = !isPunct && (pseudoRandom < maskRatio);
-
+          return text.split('').map((ch, idx) => {
+            const isP = puncts.includes(ch);
+            const pseudoRand = ((idx * 7 + 13) % 10) / 10;
             return {
               char: ch,
-              isPunctuation: isPunct,
-              masked: masked,
+              isPunctuation: isP,
+              masked: !isP && (pseudoRand < maskRatio),
               revealed: false
             };
           });
         }
 
-        // ---- 狀態輪替 Logic ----
         function cycleStatus(item) {
           if (item.status === 'unmastered') item.status = 'learning';
           else if (item.status === 'learning') item.status = 'mastered';
@@ -662,7 +770,7 @@
         }
 
         function statusText(status) {
-          if (status === 'mastered') return '🟢 已精通';
+          if (status === 'mastered') return '🟢 精通';
           if (status === 'learning') return '🟡 學習中';
           return '🔴 未掌握';
         }
@@ -673,41 +781,28 @@
           return 'bg-rose-50 text-rose-700 border-rose-200';
         }
 
-        // ---- 語音 Synthesis ----
         function speakText(text) {
-          if (!('speechSynthesis' in window)) {
-            alert('您的瀏覽器不支援語音合成朗讀');
-            return;
-          }
+          if (!('speechSynthesis' in window)) return;
           window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(text);
-          utterance.lang = speechLang.value;
-          utterance.rate = 0.85; // 適中的速背朗讀速度
-          window.speechSynthesis.speak(utterance);
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = speechLang.value;
+          u.rate = 0.85;
+          window.speechSynthesis.speak(u);
         }
 
         function toggleVoiceLang() {
           speechLang.value = speechLang.value === 'zh-HK' ? 'zh-TW' : 'zh-HK';
         }
 
-        // ---- 默寫模式 Logic ----
-        watch([currentTypingItem, currentMode], () => {
-          typedInput.value = '';
-          showTypingAnswer.value = false;
-        });
-
+        // Typing mode
         function getTypingCharClass(idx) {
           if (idx >= typedInput.value.length) return 'bg-slate-100 text-slate-400';
-          const typedChar = typedInput.value[idx];
-          const targetChar = currentTypingItem.value.text[idx];
-          return typedChar === targetChar 
-            ? 'bg-emerald-100 text-emerald-800 font-bold border-b-2 border-emerald-500' 
+          return typedInput.value[idx] === currentTypingItem.value.text[idx]
+            ? 'bg-emerald-100 text-emerald-800 font-bold border-b-2 border-emerald-500'
             : 'bg-rose-100 text-rose-700 font-bold border-b-2 border-rose-500';
         }
 
-        const isTypingComplete = computed(() => {
-          return typedInput.value === currentTypingItem.value.text;
-        });
+        const isTypingComplete = computed(() => typedInput.value === currentTypingItem.value.text);
 
         watch(isTypingComplete, (val) => {
           if (val) {
@@ -717,74 +812,49 @@
         });
 
         function giveTypingHint() {
-          const nextIdx = typedInput.value.length;
-          if (nextIdx < currentTypingItem.value.text.length) {
-            typedInput.value += currentTypingItem.value.text[nextIdx];
+          const idx = typedInput.value.length;
+          if (idx < currentTypingItem.value.text.length) {
+            typedInput.value += currentTypingItem.value.text[idx];
           }
         }
 
-        function toggleTypingAnswer() {
-          showTypingAnswer.value = !showTypingAnswer.value;
-        }
+        function prevTypingSentence() { if (typingIndex.value > 0) typingIndex.value--; }
+        function nextTypingSentence() { if (typingIndex.value < activeSentences.value.length - 1) typingIndex.value++; }
 
-        function prevTypingSentence() {
-          if (typingIndex.value > 0) typingIndex.value--;
-        }
+        watch([currentTypingItem, currentTab], () => {
+          typedInput.value = '';
+          showTypingAnswer.value = false;
+        });
 
-        function nextTypingSentence() {
-          if (typingIndex.value < activeSentences.value.length - 1) typingIndex.value++;
-        }
-
-        // ---- 詞塊組句 Mode Logic ----
-        function tokenizeSentence(text) {
-          // 根據標點符號與長度分割成 4-7 個自然詞塊
-          const regex = /([^，。；！？]+[，。；！？]?)/g;
-          const rawMatches = text.match(regex) || [text];
-          const chunks = [];
-
-          rawMatches.forEach(chunk => {
-            if (chunk.length > 8) {
-              const mid = Math.floor(chunk.length / 2);
-              chunks.push(chunk.slice(0, mid));
-              chunks.push(chunk.slice(mid));
-            } else {
-              chunks.push(chunk);
-            }
-          });
-          return chunks;
-        }
-
+        // Block assembly mode
         function setupBlocks() {
           if (!currentBlockItem.value.text) return;
-          const chunks = tokenizeSentence(currentBlockItem.value.text);
+          const regex = /([^，。；！？]+[，。；！？]?)/g;
+          const matches = currentBlockItem.value.text.match(regex) || [currentBlockItem.value.text];
+          const chunks = [];
+          matches.forEach(m => {
+            if (m.length > 7) {
+              const mid = Math.floor(m.length / 2);
+              chunks.push(m.slice(0, mid), m.slice(mid));
+            } else {
+              chunks.push(m);
+            }
+          });
           selectedBlocks.value = [];
-          // 隨機打散 (Shuffle)
           availableBlocks.value = [...chunks].sort(() => Math.random() - 0.5);
         }
 
-        watch([currentBlockItem, currentMode], () => {
-          setupBlocks();
-        }, { immediate: true });
+        watch([currentBlockItem, currentTab], () => { setupBlocks(); }, { immediate: true });
 
-        function selectBlock(idx) {
-          const b = availableBlocks.value.splice(idx, 1)[0];
-          selectedBlocks.value.push(b);
+        function selectBlock(i) {
+          selectedBlocks.value.push(availableBlocks.value.splice(i, 1)[0]);
         }
-
-        function deselectBlock(idx) {
-          const b = selectedBlocks.value.splice(idx, 1)[0];
-          availableBlocks.value.push(b);
+        function deselectBlock(i) {
+          availableBlocks.value.push(selectedBlocks.value.splice(i, 1)[0]);
         }
+        function resetBlocks() { setupBlocks(); }
 
-        function resetBlocks() {
-          setupBlocks();
-        }
-
-        const isBlockAssembledCorrect = computed(() => {
-          const assembled = selectedBlocks.value.join('');
-          return assembled === currentBlockItem.value.text;
-        });
-
+        const isBlockAssembledCorrect = computed(() => selectedBlocks.value.join('') === currentBlockItem.value.text);
         watch(isBlockAssembledCorrect, (val) => {
           if (val) {
             triggerConfetti();
@@ -792,96 +862,50 @@
           }
         });
 
-        function prevBlockSentence() {
-          if (blockIndex.value > 0) blockIndex.value--;
+        function prevBlockSentence() { if (blockIndex.value > 0) blockIndex.value--; }
+        function nextBlockSentence() { if (blockIndex.value < activeSentences.value.length - 1) blockIndex.value++; }
+
+        // Card mode
+        watch([cardIndex, currentTab, cardCategoryType], () => { isFlipped.value = false; });
+        function prevCard() { if (cardIndex.value > 0) cardIndex.value--; }
+        function nextCard() { if (cardIndex.value < filteredCardList.value.length - 1) cardIndex.value++; }
+        function setCardStatus(st) { currentCardItem.value.status = st; }
+
+        function copyGeneratedText() {
+          navigator.clipboard.writeText(generatedImitationSentence.value);
+          alert('已成功複製你的原創描寫佳句！可直接貼上至作文草稿中。');
         }
 
-        function nextBlockSentence() {
-          if (blockIndex.value < activeSentences.value.length - 1) blockIndex.value++;
-        }
-
-        // ---- 記憶卡片 Mode Logic ----
-        watch([cardIndex, currentMode], () => {
-          isFlipped.value = false;
-        });
-
-        function prevCard() {
-          if (cardIndex.value > 0) cardIndex.value--;
-        }
-
-        function nextCard() {
-          if (cardIndex.value < activeSentences.value.length - 1) cardIndex.value++;
-        }
-
-        function setCardStatus(status) {
-          currentCardItem.value.status = status;
-        }
-
-        // ---- 慶祝彩帶特效 (Confetti) ----
         function triggerConfetti() {
           if (typeof confetti === 'function') {
-            confetti({
-              particleCount: 70,
-              spread: 60,
-              origin: { y: 0.7 }
-            });
-          }
-        }
-
-        // ---- 句子管理 Modal Logic ----
-        function openAddModal() {
-          showModal.value = true;
-        }
-
-        function addCustomSentence() {
-          if (!newSentenceText.value.trim()) return;
-          const cat = newSentenceCategory.value.trim() || '自訂句子';
-          sentences.value.push({
-            id: 'custom_' + Date.now(),
-            category: cat,
-            text: newSentenceText.value.trim(),
-            status: 'unmastered'
-          });
-          newSentenceText.value = '';
-        }
-
-        function deleteSentence(id) {
-          sentences.value = sentences.value.filter(s => s.id !== id);
-        }
-
-        function resetToDefaultData() {
-          if (confirm('確定要恢復為圖片預設句子庫嗎？所有自訂修改將被重置。')) {
-            sentences.value = JSON.parse(JSON.stringify(DEFAULT_SENTENCES));
+            confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
           }
         }
 
         return {
-          currentMode,
+          currentTab,
+          tabs,
           selectedCategory,
           maskLevel,
           speechLang,
           speechLangName,
-          sentences,
-          allSentences,
-          categories,
+          categoriesList,
           activeSentences,
-          totalSentencesCount,
+          filteredCardList,
+          totalItemsCount,
           masteredCount,
           learningCount,
           unmasteredCount,
           overallProgress,
-          
-          // 遮擋方法
+
           processMaskedText,
           statusText,
           statusStyle,
           cycleStatus,
-
-          // 語音
           speakText,
           toggleVoiceLang,
 
-          // 默寫打字
+          // Typing
           typingIndex,
           currentTypingItem,
           typedInput,
@@ -889,11 +913,10 @@
           getTypingCharClass,
           isTypingComplete,
           giveTypingHint,
-          toggleTypingAnswer,
           prevTypingSentence,
           nextTypingSentence,
 
-          // 詞塊組句
+          // Blocks
           blockIndex,
           currentBlockItem,
           availableBlocks,
@@ -905,7 +928,8 @@
           prevBlockSentence,
           nextBlockSentence,
 
-          // 記憶卡片
+          // Cards
+          cardCategoryType,
           cardIndex,
           currentCardItem,
           isFlipped,
@@ -913,14 +937,15 @@
           nextCard,
           setCardStatus,
 
-          // 管理彈窗
-          showModal,
-          openAddModal,
-          newSentenceCategory,
-          newSentenceText,
-          addCustomSentence,
-          deleteSentence,
-          resetToDefaultData
+          // Imitation
+          imitationTemplates,
+          selectedTemplate,
+          userImitationSlots,
+          generatedImitationSentence,
+          copyGeneratedText,
+
+          // Topics
+          essayTopics
         };
       }
     }).mount('#app');
